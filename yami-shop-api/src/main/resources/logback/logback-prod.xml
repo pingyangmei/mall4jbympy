@@ -2,13 +2,12 @@
     <property name="PROJECT_PATH" value="/opt/projects/yami-shops"/>
     <property name="LOG_FILE_MAX_HISTORY" value="30"/>
     <property name="LOG_FILE_MAX_SIZE" value="50MB"/>
-
+    <property name="baseDirectory" value="logs"/>
 
     <include resource="org/springframework/boot/logging/logback/defaults.xml" />
-    <include resource="org/springframework/boot/logging/logback/console-appender.xml" />
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
 
-    <appender name="DefaultFile"
-              class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <appender name="DefaultFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <append>true</append>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>${FILE_LOG_PATTERN}</pattern>
@@ -26,9 +25,29 @@
         </rollingPolicy>
     </appender>
 
+    <appender name="rollingAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <append>false</append>
+        <prudent>false</prudent>
+        <encoder><!-- 必须指定，否则不会往文件输出内容 -->
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n</pattern>
+            <!--<pattern>${CONSOLE_LOG_PATTERN}</pattern>-->
+            <charset>UTF-8</charset>
+        </encoder>
+        <!--日志名,指定最新的文件名，其他文件名使用FileNamePattern -->
+        <File>${baseDirectory}/current.log</File>
+        <!--文件滚动模式-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${baseDirectory}/admin-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>${LOG_FILE_MAX_SIZE}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>${LOG_FILE_MAX_HISTORY}</maxHistory>
+        </rollingPolicy>
+    </appender>
+
     <root level="info">
         <appender-ref ref="CONSOLE" />
-        <appender-ref ref="DefaultFile" />
+        <appender-ref ref="rollingAppender" />
     </root>
 
     <logger name="com.yami.shop" level="debug"/>

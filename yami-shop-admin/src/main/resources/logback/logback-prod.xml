@@ -19,7 +19,7 @@
             <level>${logging.level}</level>
         </filter>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>${PROJECT_PATH}/log/api/%d{yyyy-MM}/api-%d{yyyy-MM-dd}-%i.log.gz</fileNamePattern>
+            <fileNamePattern>${PROJECT_PATH}/log/api/%d{yyyy-MM}/admin-%d{yyyy-MM-dd}-%i.log.gz</fileNamePattern>
             <maxFileSize>${LOG_FILE_MAX_SIZE}</maxFileSize>
             <maxHistory>${LOG_FILE_MAX_HISTORY}</maxHistory>
         </rollingPolicy>
