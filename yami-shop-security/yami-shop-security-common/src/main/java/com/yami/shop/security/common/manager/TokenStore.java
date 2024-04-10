@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
+import redis.clients.jedis.Jedis;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +46,11 @@ public class TokenStore {
 
     public TokenStore(RedisTemplate<String, Object> redisTemplate) {
         this.redisTemplate = redisTemplate;
+    }
+
+    public static void main(String[] args) {
+        Jedis jedis = new Jedis("1.92.81.115",6379);
+        System.out.println(jedis.ping());
     }
 
     /**
